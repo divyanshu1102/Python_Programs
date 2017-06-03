@@ -1,7 +1,5 @@
-# Problem Set 2, hangman.py
-# Name: 
-# Collaborators:
-# Time spent:
+# Name: Divyanshu Sharma
+# Collaborators: None
 
 # Hangman Game
 # -----------------------------------
@@ -124,24 +122,57 @@ def hangman(secret_word):
     letters_guessed=[None]
     print('Welcome to the game Hangman!')
     print('I am thinking of a word that is',len(secret_word),'letters long.') 
+    
+    # Comment out the next line when testing ends
     print('word: ',secret_word)
     i=0
-    while i<len(secret_word):
+    warnings=3
+    lose=1
+    while i<len(secret_word): uncomment
         print('-------------')
+        print('You have',warnings,'warnings left.')
         print('You have',len(secret_word)-i,'guesses left.')
         print('Available letters: ',get_available_letters(letters_guessed))
         entry=input('Please guess a letter: ')
+
+        if not str.isalpha(entry):
+            print('Please enter an alphabet only!')
+            if warnings==0:
+                i+=1
+            else:
+                warnings-=1
+            continue
+        elif entry in get_guessed_word(secret_word, letters_guessed) and entry in 'aeiou':
+            print('You have already entered this Vowel. Penalty of 2 guesses!')
+            i+=2
+            continue
+        elif entry in get_guessed_word(secret_word, letters_guessed):
+            print('You have already guessed this alphabet. Please see the Available Letters ')
+            if warnings==0:
+                i+=1
+            else:
+                warnings-=1
+            continue
+        else:
+            str.lower(entry)
+
+        
         letters_guessed.append(entry)
         if entry in secret_word:
           print('Good guess: ',get_guessed_word(secret_word, letters_guessed))
           if is_word_guessed(secret_word, get_guessed_word(secret_word, letters_guessed)):
-              print('You won')
+              print('Congratulations,You won')
+              print('Your Score for this game is: ',(len(secret_word)-i)*len(set(secret_word)) )
+              lose=0
               break
         else:
           print('Oops! That letter is not in my word:',get_guessed_word(secret_word, letters_guessed))
-
+        input('Press Return')
         i+=1
-    
+
+    if lose:
+        print('No more Guesses left. Game over!')
+        print('The word was:',secret_word)
           
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
