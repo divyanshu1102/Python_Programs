@@ -12,17 +12,18 @@ def showGrid(grid):
     for i in range(len(grid)):
         if i%3==0 and i!=0:
             print()
-        print(grid[i],end=" ")
-        print('(',i,')',end=" ")
+        print(grid[i],end="|")
+        print(i,end=" ")
     print('\n-------------')
+    
 def winCheck(grid):
     '''
+    Input: grid, list of user's entries
     Checks for a 'win' situation
     Return:(True, character that won) if there is a win situation
            (False,character that won) if there is no win situation
     '''
     
-   
     if grid[0]!='_' and (grid[0]==grid[1]==grid[2] or grid[0]==grid[4]==grid[8] or grid[0]==grid[3]==grid[6]):
         return (True, grid[0])
 
@@ -43,8 +44,14 @@ def winCheck(grid):
 
 def declare_result(grid):
 
+    '''
+    Input: grid, list of user's entries
+    Checks whether input loop should continue or not
+    Return: False, if the input loop should stop
+            True, if input loops should continue
+    '''
+    
     (result, X_O)=winCheck(grid)
-    #print('Function returned: ',result, X_O)
 
     if result:
         if X_O=='X':
@@ -67,13 +74,21 @@ def declare_result(grid):
         return True
     
 def initialiser():
+    '''
+    Initialises a list of 9 elements
+    Returns: grid, a list of 9 elements
+    '''
     grid=['_']*9
-    #print(grid)
 
     return grid
 
 def entry(grid,i):
-    
+    '''
+    Input: grid, list of user's entries
+           i, number of input
+    Return: 0, if user enters wrong input after warning
+            1, if there was a correct input
+    '''
     if i%2==0:
         position=input('Enter Position for Player 1:')
         if int(position)>=9 or int(position)<0 :
@@ -101,7 +116,9 @@ def entry(grid,i):
         return 1
     
 def main():
-    
+    '''
+    Main Driver loop for the game
+    '''
     grid=initialiser()
     print('Player 1: X and Player 2: O\nEnter Numbers between 0 to 8 designating the entry position')
 
