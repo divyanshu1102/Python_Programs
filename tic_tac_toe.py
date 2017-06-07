@@ -89,31 +89,43 @@ def entry(grid,i):
     Return: 0, if user enters wrong input after warning
             1, if there was a correct input
     '''
-    if i%2==0:
-        position=input('Enter Position for Player 1:')
-        if int(position)>=9 or int(position)<0 :
-            print('Warning: Input a position between 0 to 8:')
-            position=input('Enter Position for Player 1:')
 
-        if int(position)>=9 or int(position)<0 :
-            print('Penalty for wrong input')
+    try:
+        
+        if i%2==0:
+            position=int(input('Enter Position for Player 1:'))
+
+            if 0<=position<=8 :
+                if grid[position]=='_':
+                    grid[position]='X'
+                    return 1
+                else:
+                    print('Penalty for wrong input, Enter numbers between 0-8')
+                    return 0
+            else:
+                 print('Penalty for wrong input, Enter numbers between 0-8')
+                 return 0
+        else:
+            position=int(input('Enter Position for Player 2:'))
+
+            if 0<=position<=8 :
+                if grid[int(position)]=='_':
+                    grid[position]='O'
+                    return 1
+                else:
+                    print('Penalty for wrong input, Enter numbers between 0-8')
+                    return 0
+            else:
+                 print('Penalty for wrong input, Enter numbers between 0-8')
+                 return 0
+
+        
+    except ValueError:
+            print("Penalty for wrong input, Enter numbers between 0-8")
             return 0
 
-        grid[int(position)]='X'
-        return 1
-        
-    else:
-        position=input('Enter Position for Player 2:')
-        if int(position)>=9 or int(position)<0 :
-            print('Warning: Input a position between 0 to 8:')
-            position=input('Enter Position for Player 2:')
+    return 0
 
-        if int(position)>=9 or int(position)<0 :
-            print('Penalty for wrong input')
-            return 0
-        
-        grid[int(position)]='O'
-        return 1
     
 def main():
     '''
@@ -128,7 +140,6 @@ def main():
         showGrid(grid)
         fail=entry(grid,i)
         if fail==0:
-            i+=1
             continue
         i+=1
          
